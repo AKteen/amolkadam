@@ -66,7 +66,7 @@ const About = () => {
 
           {/* CTA */}
           <a
-            href="https://wa.me/919765509815?text=Hi%20Amol%2C%20I%27d%20love%20to%20know%20more!"
+            href="https://wa.me/918975102118?text=Hi%20Amol%2C%20I%27d%20love%20to%20know%20more!"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block bg-black text-white text-sm font-semibold px-8 py-3 rounded-full hover:bg-gray-800 transition-all duration-300 tracking-wide"

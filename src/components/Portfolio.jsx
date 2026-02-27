@@ -1,15 +1,15 @@
 import React from "react";
 
 const images = [
-  { src: "https://images.unsplash.com/photo-1519741497674-611481863552?w=600&q=80", span: "row-span-2" },
-  { src: "https://images.unsplash.com/photo-1606800052052-a08af7148866?w=600&q=80", span: "" },
-  { src: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600&q=80", span: "row-span-2" },
-  { src: "https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=600&q=80", span: "" },
-  { src: "https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=600&q=80", span: "" },
-  { src: "https://images.unsplash.com/photo-1525772764200-be829a350797?w=600&q=80", span: "row-span-2" },
-  { src: "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=600&q=80", span: "" },
-  { src: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600&q=80", span: "" },
-  { src: "https://images.unsplash.com/photo-1550005809-91ad75fb315f?w=600&q=80", span: "" },
+  "/m1.jpeg",
+  "/m2.jpeg",
+  "/m3.jpeg",
+  "/m4.jpeg",
+  "/m5.jpeg",
+  "/m6.jpeg",
+  "/m7.jpeg",
+  "/m8.jpeg",
+  "/m9.jpeg",
 ];
 
 const Portfolio = () => {
@@ -30,36 +30,27 @@ const Portfolio = () => {
           </h2>
         </div>
 
-        {/* Masonry Grid */}
+        {/* CSS Columns Masonry */}
         <div
-          className="grid grid-cols-2 md:grid-cols-3 gap-3 auto-rows-[220px]"
+          style={{
+            columnCount: 3,
+            columnGap: '12px',
+          }}
+          className="[column-count:2] md:[column-count:3]"
         >
-          {images.map((img, i) => (
+          {images.map((src, i) => (
             <div
               key={i}
-              className={`overflow-hidden rounded-xl ${img.span}`}
+              className="mb-3 overflow-hidden rounded-xl break-inside-avoid"
             >
               <img
-                src={img.src}
+                src={src}
                 alt={`Wedding ${i + 1}`}
-                className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                className="w-full h-auto block transition-transform duration-500 hover:scale-105"
               />
             </div>
           ))}
         </div>
-
-        {/* CTA */}
-
-        {/* <div className="text-center mt-12">
-          <a
-            href="https://wa.me/919765509815?text=Hi%20Amol%2C%20I%27d%20like%20to%20see%20more%20of%20your%20work!"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block border border-black text-black text-sm font-semibold px-8 py-3 rounded-full hover:bg-black hover:text-white transition-all duration-300 tracking-wide"
-          >
-            See More Work
-          </a>
-        </div> */}
 
       </div>
     </section>

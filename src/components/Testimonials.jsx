@@ -49,7 +49,7 @@ const Stars = ({ count }) => (
 
 const Testimonials = () => {
   return (
-    <section id="testimonials" className="w-full bg-[#fafafa] py-24 px-6">
+    <section id="kindwords" className="w-full bg-[#fafafa] py-24 px-6">
       <div className="max-w-6xl mx-auto">
 
         {/* Header */}

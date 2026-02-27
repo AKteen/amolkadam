@@ -20,7 +20,7 @@ const Hero = () => {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img
-          src="/wed2.jpg"
+          src="/hero.jpeg"
           alt="Wedding photography"
           className="w-full h-full object-cover object-center"
         />

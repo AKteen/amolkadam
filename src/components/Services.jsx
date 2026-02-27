@@ -6,21 +6,21 @@ const services = [
     description:
       "From the morning rituals to the final farewell — every emotion, every detail, captured authentically. We blend into your day so you can live it fully.",
     features: ["Full day coverage", "Edited digital gallery", "Print-ready files"],
-    icon: "💍",
+    image: "/svc_wed.jpeg",
   },
   {
     title: "Pre-Wedding Shoot",
     description:
       "A relaxed session before the big day to tell your unique love story. Choose your location, your vibe — we'll take care of the rest.",
     features: ["2-4 hour session", "Location of your choice", "50+ edited photos"],
-    icon: "🌅",
+    image: "/svc_prewed.jpeg",
   },
   {
     title: "Newborn Photography",
     description:
       "Those tiny fingers, sleepy yawns and pure innocence — captured forever in the first few weeks of your baby's life. Gentle, safe and beautiful.",
     features: ["Studio & home sessions", "Safe posing techniques", "Soft natural lighting"],
-    icon: "🍼",
+    image: "/svc_newborn.jpeg",
   },
 ];
 
@@ -47,46 +47,52 @@ const Services = () => {
           {services.map((service) => (
             <div
               key={service.title}
-              className="group border border-gray-100 rounded-2xl p-8 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-[#fafafa]"
+              className="group relative overflow-hidden rounded-2xl h-[480px] cursor-pointer"
             >
-              {/* Icon */}
-              <div className="text-4xl mb-6">{service.icon}</div>
+              {/* Background Image */}
+              <img
+                src={service.image}
+                alt={service.title}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
 
-              {/* Title */}
-              <h3
-                className="text-xl font-bold text-gray-900 mb-3"
-                style={{ fontFamily: "'Georgia', serif" }}
-              >
-                {service.title}
-              </h3>
+              {/* Gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
 
-              {/* Description */}
-              <p className="text-gray-500 font-light leading-relaxed text-sm mb-6">
-                {service.description}
-              </p>
+              {/* Content */}
+              <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
 
-              {/* Features */}
-              <ul className="space-y-2 mb-8">
-                {service.features.map((f) => (
-                  <li
-                    key={f}
-                    className="flex items-center gap-2 text-sm text-gray-500"
-                  >
-                    <span className="w-1.5 h-1.5 rounded-full bg-black inline-block" />
-                    {f}
-                  </li>
-                ))}
-              </ul>
+                <h3
+                  className="text-2xl font-bold mb-3"
+                  style={{ fontFamily: "'Georgia', serif" }}
+                >
+                  {service.title}
+                </h3>
 
-              {/* CTA */}
-              <a
-                href="https://wa.me/919765509815?text=Hi%20Amol%2C%20I%27m%20interested%20in%20your%20services!"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block text-sm font-semibold text-black border-b border-black pb-0.5 hover:opacity-50 transition-opacity duration-200"
-              >
-                Enquire Now →
-              </a>
+                <p className="text-white/70 font-light leading-relaxed text-sm mb-5">
+                  {service.description}
+                </p>
+
+                <ul className="space-y-1.5 mb-6">
+                  {service.features.map((f) => (
+                    <li key={f} className="flex items-center gap-2 text-sm text-white/60">
+                      <span className="w-1.5 h-1.5 rounded-full bg-white inline-block" />
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+
+                {/* ✅ Fixed CTA */}
+                <a
+                  href="https://wa.me/919765509815?text=Hi%20Amol%2C%20I%27m%20interested%20in%20your%20services!"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block text-sm font-semibold text-white border-b border-white/50 pb-0.5 hover:opacity-50 transition-opacity duration-200"
+                >
+                  Enquire Now →
+                </a>
+
+              </div>
             </div>
           ))}
         </div>

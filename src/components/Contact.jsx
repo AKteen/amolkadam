@@ -1,25 +1,51 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    event_type: "",
-    event_date: "",
-    venue: "",
-    message: "",
+    name: '',
+    phone: '',
+    email: '',
+    event_type: '',
+    event_date: '',
+    venue: '',
+    message: '',
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          access_key: '860bdf79-ed62-4a2c-9a15-6659d95e4a96',
+          subject: `New Enquiry from ${formData.name}`,
+          ...formData,
+        }),
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        setSubmitted(true);
+      } else {
+        setError('Something went wrong. Please try again.');
+      }
+    } catch (err) {
+      setError('Failed to send. Please check your connection.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -44,11 +70,10 @@ const Contact = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
 
-          {/* LEFT: FORM */}
+          {/* LEFT — Form */}
           <div className="bg-white rounded-2xl p-8 shadow-sm">
-
             {submitted ? (
-              <div className="flex flex-col items-center justify-center py-16 text-center">
+              <div className="flex flex-col items-center justify-center h-full py-16 text-center">
                 <div className="text-4xl mb-4">🎉</div>
                 <h3
                   className="text-2xl font-bold text-gray-900 mb-2"
@@ -57,19 +82,15 @@ const Contact = () => {
                   Thank You!
                 </h3>
                 <p className="text-gray-400 font-light text-sm">
-                  Your enquiry has been received. Amol will reach out shortly.
+                  Your enquiry has been received. Amol will reach out to you shortly.
                 </p>
               </div>
             ) : (
-
               <form onSubmit={handleSubmit} className="space-y-5">
 
-                {/* Name + Phone */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-xs text-gray-400 uppercase tracking-widest mb-2">
-                      Full Name *
-                    </label>
+                    <label className="block text-xs text-gray-400 uppercase tracking-widest mb-2">Full Name *</label>
                     <input
                       type="text"
                       name="name"
@@ -77,14 +98,11 @@ const Contact = () => {
                       value={formData.name}
                       onChange={handleChange}
                       placeholder="Priya Sharma"
-                      className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm bg-[#fafafa] focus:outline-none focus:border-black transition"
+                      className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-700 focus:outline-none focus:border-black bg-[#fafafa]"
                     />
                   </div>
-
                   <div>
-                    <label className="block text-xs text-gray-400 uppercase tracking-widest mb-2">
-                      Phone *
-                    </label>
+                    <label className="block text-xs text-gray-400 uppercase tracking-widest mb-2">Phone *</label>
                     <input
                       type="tel"
                       name="phone"
@@ -92,16 +110,13 @@ const Contact = () => {
                       value={formData.phone}
                       onChange={handleChange}
                       placeholder="+91 98765 43210"
-                      className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm bg-[#fafafa] focus:outline-none focus:border-black transition"
+                      className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-700 focus:outline-none focus:border-black bg-[#fafafa]"
                     />
                   </div>
                 </div>
 
-                {/* Email */}
                 <div>
-                  <label className="block text-xs text-gray-400 uppercase tracking-widest mb-2">
-                    Email *
-                  </label>
+                  <label className="block text-xs text-gray-400 uppercase tracking-widest mb-2">Email *</label>
                   <input
                     type="email"
                     name="email"
@@ -109,22 +124,19 @@ const Contact = () => {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="priya@email.com"
-                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm bg-[#fafafa] focus:outline-none focus:border-black transition"
+                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-700 focus:outline-none focus:border-black bg-[#fafafa]"
                   />
                 </div>
 
-                {/* Event Type + Date */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-xs text-gray-400 uppercase tracking-widest mb-2">
-                      Event Type *
-                    </label>
+                    <label className="block text-xs text-gray-400 uppercase tracking-widest mb-2">Event Type *</label>
                     <select
                       name="event_type"
                       required
                       value={formData.event_type}
                       onChange={handleChange}
-                      className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm bg-[#fafafa] focus:outline-none focus:border-black transition"
+                      className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-700 focus:outline-none focus:border-black bg-[#fafafa]"
                     >
                       <option value="">Select...</option>
                       <option value="Wedding">Wedding</option>
@@ -133,70 +145,65 @@ const Contact = () => {
                       <option value="Other">Other</option>
                     </select>
                   </div>
-
                   <div>
-                    <label className="block text-xs text-gray-400 uppercase tracking-widest mb-2">
-                      Event Date
-                    </label>
+                    <label className="block text-xs text-gray-400 uppercase tracking-widest mb-2">Event Date</label>
                     <input
                       type="date"
                       name="event_date"
                       value={formData.event_date}
                       onChange={handleChange}
-                      className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm bg-[#fafafa] focus:outline-none focus:border-black transition"
+                      className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-700 focus:outline-none focus:border-black bg-[#fafafa]"
                     />
                   </div>
                 </div>
 
-                {/* Venue */}
                 <div>
-                  <label className="block text-xs text-gray-400 uppercase tracking-widest mb-2">
-                    Venue / Location
-                  </label>
+                  <label className="block text-xs text-gray-400 uppercase tracking-widest mb-2">Venue / Location</label>
                   <input
                     type="text"
                     name="venue"
                     value={formData.venue}
                     onChange={handleChange}
                     placeholder="Hotel Taj, Pune"
-                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm bg-[#fafafa] focus:outline-none focus:border-black transition"
+                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-700 focus:outline-none focus:border-black bg-[#fafafa]"
                   />
                 </div>
 
-                {/* Message */}
                 <div>
-                  <label className="block text-xs text-gray-400 uppercase tracking-widest mb-2">
-                    Message
-                  </label>
+                  <label className="block text-xs text-gray-400 uppercase tracking-widest mb-2">Message</label>
                   <textarea
                     name="message"
                     rows={4}
                     value={formData.message}
                     onChange={handleChange}
                     placeholder="Tell me a little about your event..."
-                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm bg-[#fafafa] focus:outline-none focus:border-black transition resize-none"
+                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-700 focus:outline-none focus:border-black bg-[#fafafa] resize-none"
                   />
                 </div>
 
-                {/* Submit */}
+                {error && (
+                  <p className="text-red-400 text-sm text-center">{error}</p>
+                )}
+
                 <button
                   type="submit"
-                  className="w-full bg-black text-white text-sm font-semibold py-3.5 rounded-full hover:bg-gray-800 transition"
+                  disabled={loading}
+                  className="w-full bg-black text-white text-sm font-semibold py-3.5 rounded-full hover:bg-gray-800 transition disabled:opacity-50"
                 >
-                  Send Enquiry
+                  {loading ? 'Sending...' : 'Send Enquiry'}
                 </button>
 
               </form>
             )}
           </div>
 
-          {/* RIGHT SIDE */}
+          {/* RIGHT — Map + Contact Info */}
           <div className="flex flex-col gap-6">
 
             <div className="rounded-2xl overflow-hidden shadow-sm w-full h-72">
               <iframe
-                title="Location"
-                src="https://www.google.com/maps?q=Pune,Maharashtra&output=embed"
+                title="Little Smile Studio"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3729.181!2d77.6863147!3d19.6049816!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd1931181c0cfbf%3A0xffe7e19380f02861!2sLittle%20Smile%20Studio!5e0!3m2!1sen!2sin"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
@@ -204,28 +211,31 @@ const Contact = () => {
               />
             </div>
 
-            <div className="bg-white rounded-2xl p-8 shadow-sm space-y-6">
+            <div className="bg-white rounded-2xl p-8 shadow-sm flex flex-col gap-5">
 
               <div>
-                <p className="text-xs uppercase tracking-widest text-gray-400 mb-1">
-                  Phone / WhatsApp
-                </p>
+                <p className="text-xs uppercase tracking-widest text-gray-400 mb-1">Location</p>
+                <p className="text-gray-700 text-sm font-medium">Pune, Maharashtra, India</p>
+              </div>
+
+              <div className="w-full h-px bg-gray-100" />
+
+              <div>
+                <p className="text-xs uppercase tracking-widest text-gray-400 mb-1">Phone / WhatsApp</p>
                 <a
-                  href="https://wa.me/919765509815"
+                  href="https://wa.me/918975102118"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-700 text-sm font-medium hover:opacity-60"
                 >
-                  +91 97655 09815
+                  +91 89751 02118
                 </a>
               </div>
 
-              <div className="h-px bg-gray-100" />
+              <div className="w-full h-px bg-gray-100" />
 
               <div>
-                <p className="text-xs uppercase tracking-widest text-gray-400 mb-1">
-                  Email
-                </p>
+                <p className="text-xs uppercase tracking-widest text-gray-400 mb-1">Email</p>
                 <a
                   href="mailto:amol@weddingstudio.in"
                   className="text-gray-700 text-sm font-medium hover:opacity-60"
@@ -235,8 +245,8 @@ const Contact = () => {
               </div>
 
             </div>
-
           </div>
+
         </div>
       </div>
     </section>
