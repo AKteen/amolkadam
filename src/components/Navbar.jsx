@@ -29,7 +29,7 @@ const Navbar = () => {
           className={`text-2xl font-semibold tracking-wide transition-colors duration-500 ${navText}`}
           style={{ fontFamily: "'Cormorant Garamond', serif" }}
         >
-          WeddingStudio
+          <img src="/logo.png" alt="Logo" className="h-10"  />
         </div>
 
         {/* Desktop links */}
